@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Toro Craft Beer – Menu</title>
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;400italic&family=DM+Sans:wght@300;400;500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* Reset & biến màu */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg: #0E0600;
+            --card: #1A0A02;
+            --border: rgba(196, 130, 10, 0.2);
+            --amber: #C4820A;
+            --gold: #E8A820;
+            --cream: #FDF0DC;
+            --muted: #9B7A55;
+            --red: #E03A1E;
+        }
+
+        body {
+            background-color: var(--bg);
+            background-image: radial-gradient(rgba(196, 130, 10, 0.04) 1px, transparent 1px);
+            background-size: 24px 24px;
+            font-family: 'DM Sans', sans-serif;
+            color: var(--cream);
+            min-height: 100vh;
+            padding-bottom: 2rem;
+        }
+
+        .container {
+            max-width: 480px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            padding: 2.5rem 0 1.5rem;
+        }
+
+        .logo {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 1rem;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #3A1200, #9A5A08);
+            border: 2px solid var(--amber);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            box-shadow: 0 0 0 4px rgba(196, 130, 10, 0.12), 0 8px 32px black;
+        }
+
+        .brand {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            color: var(--cream);
+        }
+
+        .brand em {
+            display: block;
+            font-style: italic;
+            font-size: 0.9rem;
+            color: var(--amber);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            font-family: 'Space Mono', monospace;
+        }
+
+        .address {
+            margin-top: 0.5rem;
+            font-size: 0.8rem;
+            color: var(--muted);
+            font-family: 'Space Mono', monospace;
+            letter-spacing: 1px;
+        }
+
+        .best-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            background: rgba(224, 58, 30, 0.15);
+            border: 1px solid rgba(224, 58, 30, 0.4);
+            color: #FF6B4A;
+            font-size: 0.7rem;
+            font-family: 'Space Mono', monospace;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            padding: 0.3rem 0.8rem;
+            border-radius: 100px;
+            margin-top: 0.8rem;
+        }
+
+        /* Category */
+        .category {
+            margin-top: 1.5rem;
+        }
+
+        .category-header {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            padding: 0.8rem 1rem;
+            background: rgba(196, 130, 10, 0.08);
+            border: 1px solid var(--border);
+            border-radius: 12px 12px 0 0;
+            cursor: pointer;
+            user-select: none;
+            transition: background 0.2s;
+        }
+
+        .category-header:hover {
+            background: rgba(196, 130, 10, 0.14);
+        }
+
+        .category-icon {
+            font-size: 1.3rem;
+        }
+
+        .category-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            flex: 1;
+        }
+
+        .category-toggle {
+            color: var(--amber);
+            transition: transform 0.3s;
+            font-family: 'Space Mono', monospace;
+        }
+
+        .category-toggle.open {
+            transform: rotate(180deg);
+        }
+
+        .category-body {
+            border: 1px solid var(--border);
+            border-top: none;
+            border-radius: 0 0 12px 12px;
+            overflow: hidden;
+            display: none;
+        }
+
+        .category-body.open {
+            display: block;
+        }
+
+        /* Menu item */
+        .item {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 0.8rem;
+            padding: 0.7rem 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+            transition: background 0.15s;
+        }
+
+        .item:last-child {
+            border-bottom: none;
+        }
+
+        .item:hover {
+            background: rgba(255, 255, 255, 0.025);
+        }
+
+        .item-name {
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        .best-tag {
+            display: inline-block;
+            background: rgba(224, 58, 30, 0.2);
+            color: #FF6B4A;
+            font-size: 0.6rem;
+            font-family: 'Space Mono', monospace;
+            padding: 0.1rem 0.4rem;
+            border-radius: 4px;
+            margin-left: 0.4rem;
+            letter-spacing: 1px;
+            vertical-align: middle;
+        }
+
+        .item-price {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.9rem;
+            color: var(--amber);
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        .price-range {
+            display: block;
+            font-size: 0.7rem;
+            color: var(--muted);
+            font-weight: 400;
+            text-align: right;
+        }
+
+        /* Hours card */
+        .hours-card {
+            margin-top: 2rem;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .hours-label {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.7rem;
+            letter-spacing: 2px;
+            color: var(--muted);
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+        }
+
+        .hours-time {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            font-style: italic;
+            color: var(--gold);
+        }
+
+        .hours-sub {
+            font-size: 0.9rem;
+            color: var(--muted);
+            margin-top: 0.3rem;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .instagram {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.9rem;
+            color: var(--amber);
+            letter-spacing: 1px;
+        }
+
+        .tagline {
+            font-size: 0.8rem;
+            color: var(--muted);
+            margin-top: 0.4rem;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- HEADER -->
+        <div class="header">
+            <div class="logo">🍺</div>
+            <div class="brand">TORO<em>Craft Beer</em></div>
+            <div class="address">📍 143 Lê Lợi, Đà Nẵng</div>
+            <div class="best-badge">⭐ Best Seller đánh dấu đỏ</div>
+        </div>
+
+        <!-- DANH MỤC MÓN -->
+        <!-- Cá -->
+        <div class="category">
+            <div class="category-header" onclick="toggleCategory(this)">
+                <span class="category-icon">🐟</span>
+                <span class="category-name">Món Cá</span>
+                <span class="category-toggle">▼</span>
+            </div>
+            <div class="category-body">
+                <div class="item"><span class="item-name">Cá cơm tráng chiên mắm</span><span class="item-price">70.000</span></div>
+                <div class="item"><span class="item-name">Cá đét chiên mắm</span><span class="item-price">80.000</span></div>
+                <div class="item"><span class="item-name">Cá chuồn mít nướng mọi</span><span class="item-price">80.000</span></div>
+                <div class="item"><span class="item-name">Cá đét chiên sốt mặn me<span class="best-tag">BEST</span></span><span class="item-price">80.000</span></div>
+                <div class="item"><span class="item-name">Cá giò khô tiêu<span class="best-tag">BEST</span></span><span class="item-price">160.000</span></div>
+                <div class="item"><span class="item-name">Bạch tuộc xào dưa cải</span><span class="item-price">90.000</span></div>
+                <div class="item"><span class="item-name">Bạch chỉ sả tắc<span class="best-tag">BEST</span></span><span class="item-price">100.000</span></div>
+                <div class="item"><span class="item-name">Điểm heo nướng</span><span class="item-price">120.000</span></div>
+                <div class="item"><span class="item-name">Lưỡi heo chấm ruốc<span class="best-tag">BEST</span></span><span class="item-price">100.000</span></div>
+                <div class="item"><span class="item-name">Ba chỉ xào dưa cải</span><span class="item-price">130.000</span></div>
+                <div class="item"><span class="item-name">Bao tử trâu xào</span><span class="item-price">130.000</span></div>
+            </div>
+        </div>
+
+        <!-- Heo -->
+        <div class="category">
+            <div class="category-header" onclick="toggleCategory(this)">
+                <span class="category-icon">🐷</span>
+                <span class="category-name">Món Heo</span>
+                <span class="category-toggle">▼</span>
+            </div>
+            <div class="category-body">
+                <div class="item"><span class="item-name">Chả cua um măng</span><span class="item-price">120.000</span></div>
+                <div class="item"><span class="item-name">Hoành thánh nước</span><span class="item-price">100.000</span></div>
+                <div class="item"><span class="item-name">Mắt cá ngừ um</span><span class="item-price">80.000</span></div>
+                <div class="item"><span class="item-name">Khổ qua chả cua<span class="best-tag">BEST</span></span><span class="item-price">130.000</span></div>
+                <div class="item"><span class="item-name">Bao tử hầm tiêu + Mỳ tôm</span><span class="item-price">130.000</span></div>
+                <div class="item"><span class="item-name">Cá giò hầm thược dược</span><span class="item-price">170.000</span></div>
+                <div class="item"><span class="item-name">Gà ghẹ hầm thược dược<span class="best-tag">BEST</span></span><span class="item-price">220.000</span></div>
+                <div class="item"><span class="item-name">Lẩu cá bông lau</span><span class="item-price">180.000</span></div>
+                <div class="item"><span class="item-name">Lẩu thái sần (nhỏ / lớn)</span><span class="item-price"><span class="price-range">140.000 – 200.000</span></span></div>
+                <div class="item"><span class="item-name">Lẩu gà trứng non ớt hiểm (nhỏ / lớn)</span><span class="item-price"><span class="price-range">220.000 – 290.000</span></span></div>
+            </div>
+        </div>
+
+        <!-- Bò -->
+        <div class="category">
+            <div class="category-header" onclick="toggleCategory(this)">
+                <span class="category-icon">🥩</span>
+                <span class="category-name">Món Bò</span>
+                <span class="category-toggle">▼</span>
+            </div>
+            <div class="category-body">
+                <div class="item"><span class="item-name">Gân bò nướng</span><span class="item-price">120.000</span></div>
+                <div class="item"><span class="item-name">Bụp bò đảm tỏi<span class="best-tag">BEST</span></span><span class="item-price">130.000</span></div>
+                <div class="item"><span class="item-name">Bò bít tết tiêu đen</span><span class="item-price">150.000</span></div>
+                <div class="item"><span class="item-name">Bò Toro<span class="best-tag">BEST</span></span><span class="item-price">150.000</span></div>
+                <div class="item"><span class="item-name">Bò thăn mùi</span><span class="item-price">150.000</span></div>
+                <div class="item"><span class="item-name">Bò lúc lắc + khoai tây chiên<span class="best-tag">BEST</span></span><span class="item-price">150.000</span></div>
+            </div>
+        </div>
+
+        <!-- Gà -->
+        <div class="category">
+            <div class="category-header" onclick="toggleCategory(this)">
+                <span class="category-icon">🐔</span>
+                <span class="category-name">Món Gà</span>
+                <span class="category-toggle">▼</span>
+            </div>
+            <div class="category-body">
+                <div class="item"><span class="item-name">Trứng gà non chiên tỏi</span><span class="item-price">30.000</span></div>
+                <div class="item"><span class="item-name">Gà xào sả ớt</span><span class="item-price">90.000</span></div>
+                <div class="item"><span class="item-name">Gà rang muối HK<span class="best-tag">BEST</span></span><span class="item-price">130.000</span></div>
+                <div class="item"><span class="item-name">Gà chiên cay<span class="best-tag">BEST</span></span><span class="item-price">130.000</span></div>
+                <div class="item"><span class="item-name">Gà rang muối mắm</span><span class="item-price">130.000</span></div>
+                <div class="item"><span class="item-name">Gà non chiên tỏi</span><span class="item-price">130.000</span></div>
+            </div>
+        </div>
+
+        <!-- Tôm · Mực -->
+        <div class="category">
+            <div class="category-header" onclick="toggleCategory(this)">
+                <span class="category-icon">🦐</span>
+                <span class="category-name">Tôm · Mực</span>
+                <span class="category-toggle">▼</span>
+            </div>
+            <div class="category-body">
+                <div class="item"><span class="item-name">Tôm sốt me<span class="best-tag">BEST</span></span><span class="item-price">140.000</span></div>
+                <div class="item"><span class="item-name">Tôm sốt Thái</span><span class="item-price">140.000</span></div>
+                <div class="item"><span class="item-name">Tôm chiên bột bông</span><span class="item-price">120.000</span></div>
+                <div class="item"><span class="item-name">Mực chiên mắm</span><span class="item-price">120.000</span></div>
+                <div class="item"><span class="item-name">Mực chao thánh</span><span class="item-price">130.000</span></div>
+                <div class="item"><span class="item-name">Mực khô nướng<span class="best-tag">BEST</span></span><span class="item-price">130.000</span></div>
+            </div>
+        </div>
+
+        <!-- Salad · Rau Gỏi -->
+        <div class="category">
+            <div class="category-header" onclick="toggleCategory(this)">
+                <span class="category-icon">🥗</span>
+                <span class="category-name">Salad · Rau Gỏi</span>
+                <span class="category-toggle">▼</span>
+            </div>
+            <div class="category-body">
+                <div class="item"><span class="item-name">Dưa muối tỏi ớt</span><span class="item-price">40.000</span></div>
+                <div class="item"><span class="item-name">Cải thìa xào tỏi</span><span class="item-price">60.000</span></div>
+                <div class="item"><span class="item-name">Rau muống xào tỏi</span><span class="item-price">60.000</span></div>
+                <div class="item"><span class="item-name">Bắp cải thập cẩm</span><span class="item-price">60.000</span></div>
+                <div class="item"><span class="item-name">Gỏi tôm thịt<span class="best-tag">BEST</span></span><span class="item-price">80.000</span></div>
+                <div class="item"><span class="item-name">Khổ qua xào trứng</span><span class="item-price">80.000</span></div>
+                <div class="item"><span class="item-name">Gỏi tôm chả hồng</span><span class="item-price">80.000</span></div>
+                <div class="item"><span class="item-name">Gỏi tái cà cơm tráng</span><span class="item-price">80.000</span></div>
+                <div class="item"><span class="item-name">Khổ qua chả bông<span class="best-tag">BEST</span></span><span class="item-price">90.000</span></div>
+                <div class="item"><span class="item-name">Khổ qua trộn salad</span><span class="item-price">95.000</span></div>
+                <div class="item"><span class="item-name">Xúc xích nướng TH lợp</span><span class="item-price">110.000</span></div>
+                <div class="item"><span class="item-name">Lươn xông khói + Salad</span><span class="item-price">115.000</span></div>
+                <div class="item"><span class="item-name">Khổ qua nầm thịt lợp</span><span class="item-price">110.000</span></div>
+                <div class="item"><span class="item-name">Kẹo đậu</span><span class="item-price">90.000</span></div>
+            </div>
+        </div>
+
+        <!-- Khai Vị -->
+        <div class="category">
+            <div class="category-header" onclick="toggleCategory(this)">
+                <span class="category-icon">🫙</span>
+                <span class="category-name">Khai Vị</span>
+                <span class="category-toggle">▼</span>
+            </div>
+            <div class="category-body">
+                <div class="item"><span class="item-name">Nêm chua</span><span class="item-price">10.000</span></div>
+                <div class="item"><span class="item-name">Khoai tây chiên</span><span class="item-price">40.000</span></div>
+                <div class="item"><span class="item-name">Đậu phộng muối</span><span class="item-price">50.000</span></div>
+                <div class="item"><span class="item-name">Tóp mỡ</span><span class="item-price">60.000</span></div>
+                <div class="item"><span class="item-name">Đậu hũ chiên giòn</span><span class="item-price">60.000</span></div>
+                <div class="item"><span class="item-name">Bánh mì xào tép</span><span class="item-price">70.000</span></div>
+                <div class="item"><span class="item-name">Trứng tôm</span><span class="item-price">70.000</span></div>
+                <div class="item"><span class="item-name">Trứng cuộn</span><span class="item-price">70.000</span></div>
+                <div class="item"><span class="item-name">Phô mai sốt rong biển</span><span class="item-price">70.000</span></div>
+                <div class="item"><span class="item-name">Phô mai nghệ màn</span><span class="item-price">70.000</span></div>
+                <div class="item"><span class="item-name">Trứng cút chiên mắm</span><span class="item-price">70.000</span></div>
+                <div class="item"><span class="item-name">Hoành thánh chiên<span class="best-tag">BEST</span></span><span class="item-price">80.000</span></div>
+                <div class="item"><span class="item-name">Đậu hủ hành tây kho</span><span class="item-price">80.000</span></div>
+                <div class="item"><span class="item-name">Lợp xương dài loan</span><span class="item-price">110.000</span></div>
+            </div>
+        </div>
+
+        <!-- Đồng Quê -->
+        <div class="category">
+            <div class="category-header" onclick="toggleCategory(this)">
+                <span class="category-icon">🎋</span>
+                <span class="category-name">Đồng Quê</span>
+                <span class="category-toggle">▼</span>
+            </div>
+            <div class="category-body">
+                <div class="item"><span class="item-name">Ốc bươu xào sa tế</span><span class="item-price">80.000</span></div>
+                <div class="item"><span class="item-name">Ốc bươu xào thầu dầu</span><span class="item-price">80.000</span></div>
+                <div class="item"><span class="item-name">Ốc tì thiên hà</span><span class="item-price">80.000</span></div>
+                <div class="item"><span class="item-name">Bắt sào sả ớt</span><span class="item-price">90.000</span></div>
+                <div class="item"><span class="item-name">Lươn xào thầu dầu<span class="best-tag">BEST</span></span><span class="item-price">110.000</span></div>
+                <div class="item"><span class="item-name">Lươn xào thầu dầu</span><span class="item-price">120.000</span></div>
+                <div class="item"><span class="item-name">Bắt rán sào sả ớt</span><span class="item-price">140.000</span></div>
+                <div class="item"><span class="item-name">Lươn xào sốt bánh ti rắng</span><span class="item-price">140.000</span></div>
+                <div class="item"><span class="item-name">Chim cút tiêu</span><span class="item-price">100.000</span></div>
+                <div class="item"><span class="item-name">Chim cút chiên mắm</span><span class="item-price">100.000</span></div>
+                <div class="item"><span class="item-name">Chim cút chiên mắm</span><span class="item-price">100.000</span></div>
+            </div>
+        </div>
+
+        <!-- Pasta · Pâté -->
+        <div class="category">
+            <div class="category-header" onclick="toggleCategory(this)">
+                <span class="category-icon">🍝</span>
+                <span class="category-name">Pasta · Pâté</span>
+                <span class="category-toggle">▼</span>
+            </div>
+            <div class="category-body">
+                <div class="item"><span class="item-name">Pate Toro + Bánh mì bò<span class="best-tag">BEST</span></span><span class="item-price">80.000</span></div>
+                <div class="item"><span class="item-name">Combo Pâté + Pasta</span><span class="item-price">120.000</span></div>
+                <div class="item"><span class="item-name">Combo chả + Pate</span><span class="item-price">120.000</span></div>
+            </div>
+        </div>
+
+        <!-- Cơm · Mì -->
+        <div class="category">
+            <div class="category-header" onclick="toggleCategory(this)">
+                <span class="category-icon">🍚</span>
+                <span class="category-name">Cơm · Mì</span>
+                <span class="category-toggle">▼</span>
+            </div>
+            <div class="category-body">
+                <div class="item"><span class="item-name">Mì ăn cặp đôi</span><span class="item-price">65.000</span></div>
+                <div class="item"><span class="item-name">Cơm chiên bò hải sản</span><span class="item-price">70.000</span></div>
+                <div class="item"><span class="item-name">Cơm chén bò hải sản</span><span class="item-price">80.000</span></div>
+                <div class="item"><span class="item-name">Cơm chia nhỏ</span><span class="item-price">180.000</span></div>
+                <div class="item"><span class="item-name">Cơm chiên bò hải sản (lớn)</span><span class="item-price">160.000</span></div>
+            </div>
+        </div>
+
+        <!-- Giờ mở cửa -->
+        <div class="hours-card">
+            <div class="hours-label">Giờ mở cửa · Opening Hours</div>
+            <div class="hours-time">5:00 PM — Late</div>
+            <div class="hours-sub">Mở cửa mỗi ngày · Open daily</div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <div class="instagram">@toro.craftbeer.danang</div>
+            <div class="tagline">143 Lê Lợi · Đà Nẵng · Craft Beer & Real Food</div>
+        </div>
+    </div>
+
+    <script>
+        // Hàm bật/tắt danh mục
+        function toggleCategory(header) {
+            const body = header.nextElementSibling;
+            const arrow = header.querySelector('.category-toggle');
+            const isOpen = body.classList.contains('open');
+
+            body.classList.toggle('open', !isOpen);
+            arrow.classList.toggle('open', !isOpen);
+        }
+
+        // Mặc định mở sẵn danh mục "Món Bò" (index 2) khi tải trang
+        window.addEventListener('DOMContentLoaded', () => {
+            const categories = document.querySelectorAll('.category');
+            if (categories.length >= 3) {
+                // Kích hoạt mở danh mục thứ 3 (Món Bò)
+                const targetHeader = categories[2].querySelector('.category-header');
+                if (targetHeader) {
+                    toggleCategory(targetHeader);
+                }
+            }
+        });
+    </script>
+</body>
+</html>
